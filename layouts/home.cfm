@@ -7,9 +7,10 @@
 		#nsg.outputInterceptData('layoutHeadScripts')#
 	</head>
 	<body#nsg.outputInterceptData('layoutBodyTag')#>
-		#renderView(view="includes/header",module="nsg-module-layout")#
 		#renderView(view="includes/navbar",module="nsg-module-layout")#
-		<div class="content">
+		#renderView(view="includes/header",module="nsg-module-layout")#
+
+		<div class="content" role="main">
 			<div class="container">
 				#renderView()#
 			</div>

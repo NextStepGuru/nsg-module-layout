@@ -36,9 +36,11 @@ component {
 				}
 			}
 
+		if( len(event.getCurrentModule()) ){
 			arrayAppend(prc.page.styles,{'tag':'link','href':event.getModuleRoot(event.getCurrentModule()) & "/assets/css/#event.getCurrentModule()#-module.css"});
 
 			arrayAppend(prc.page.body.scripts,{'tag':'script','src':event.getModuleRoot(event.getCurrentModule()) & "/assets/js/#event.getCurrentModule()#-module.js",'async':true});
+		}
 
 		}else if( event.isAjax() ){
 			event.noLayout();
