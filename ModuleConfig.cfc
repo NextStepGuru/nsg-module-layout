@@ -32,7 +32,6 @@ component {
 
 		// Layout Settings
 		layoutSettings = {
-			defaultLayout = "home.cfm"
 		};
 
 		// datasources

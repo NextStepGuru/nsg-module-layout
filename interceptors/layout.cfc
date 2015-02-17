@@ -7,8 +7,6 @@ component {
 
 		if( !event.isAjax() ){
 
-			event.setLayout( name='home', module='nsg-module-layout' )
-
 			var defaults = duplicate(getSetting('pageDefaults'));
 
 			if(!structKeyExists(prc,'page')){
