@@ -1,12 +1,67 @@
 component name="nsgHelper" {
-	property name="coldbox" inject="coldbox:requestService";
-	property name="html" inject="id:HTMLHelper@coldbox";
+	property name="coldbox" 	inject="coldbox:requestService";
+	property name="html" 		inject="id:HTMLHelper@coldbox";
 
 	// event announcements, funky for whitespace reasons
 	public function outputInterceptData(required state,struct data=structNew()) {
 		var data = "";
 
 		return evaluate("#arguments.state#()");
+	}
+
+	public function renderMenu(required string menuLocation){
+		var buffer	= createObject("java","java.lang.StringBuffer").init("");
+		var prc = coldbox.getContext().getCollection(private=true);
+
+		if( structKeyExists(prc,'nsgMenu') && structKeyExists(prc['nsgMenu'],arguments.menuLocation) ){
+			var myMenu = prc['nsgMenu'][arguments.menuLocation];
+
+			for(var item IN myMenu){
+				if( myMenu[item]['type'] == 'link' ){
+					renderMenuLink(myMenu[item],buffer);
+				}else if( myMenu[item]['type'] == 'dropdown'){
+					renderMenuDropdown(myMenu[item],buffer);
+				}
+			}
+		}
+
+		return buffer.toString();
+	}
+
+	public function renderMenuDropdown(required struct thisDropdown,required any buffer){
+/*
+	<li class="#nsg.isPathActive('/login')# dropdown">
+		<a href="##" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-sign-in"></i> Login <span class="caret"></span></a>
+		<ul class="dropdown-menu" role="menu">
+			<li><a href="/security/login">Sign-in with your Email</a></li>
+		</ul>
+	</li>
+*/
+		buffer.append(
+			'<li class="' & thisDropdown['class'] & ' ' & isPathActive(thisDropdown['link']) & ' dropdown">' &
+				'<a href="##" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">' &
+					'<i class="' & thisDropdown['icon'] & '"></i>' &
+					thisDropdown['title'] &
+					' <span class="caret"></span>' &
+				'</a>' &
+				'<ul class="dropdown-menu" role="menu">');
+					for(var item IN thisDropdown['submenu']){
+						renderMenuLink(thisDropdown['submenu'][item],buffer);
+					}
+
+		buffer.append(
+				'</ul>' &
+			'</li>');
+
+	}
+
+	public function renderMenuLink(required struct thisItem,required any buffer){
+		buffer.append( '<li class="' & thisItem['class'] & ' ' & isPathActive(thisItem['link']) & '">' &
+				'<a href="' & thisItem['link'] & '">' &
+					'<i class="' & thisItem['icon'] & '"></i> ' &
+					thisItem['title'] &
+				'</a>' &
+			'</li>');
 	}
 
 	public function isPathActive(required string path="",required string class="active"){
