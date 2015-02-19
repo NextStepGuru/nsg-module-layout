@@ -29,18 +29,10 @@ component name="nsgHelper" {
 	}
 
 	public function renderMenuDropdown(required struct thisDropdown,required any buffer){
-/*
-	<li class="#nsg.isPathActive('/login')# dropdown">
-		<a href="##" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-sign-in"></i> Login <span class="caret"></span></a>
-		<ul class="dropdown-menu" role="menu">
-			<li><a href="/security/login">Sign-in with your Email</a></li>
-		</ul>
-	</li>
-*/
 		buffer.append(
 			'<li class="' & thisDropdown['class'] & ' ' & isPathActive(thisDropdown['link']) & ' dropdown">' &
 				'<a href="##" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">' &
-					'<i class="' & thisDropdown['icon'] & '"></i>' &
+					'<i class="' & thisDropdown['icon'] & '"></i> ' &
 					thisDropdown['title'] &
 					' <span class="caret"></span>' &
 				'</a>' &

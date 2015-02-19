@@ -73,4 +73,5 @@ Setup & Installation
 
 ###Changelog
 
+v1.0.3 - updated menu structure and made it a series of arrays with support for multiple menu locations, role & user logged in support and more.
 v1.0.0 - current release - still kinda buggy but I am working to resolve a few issues and I will expand the documentation shortly.
