@@ -5,7 +5,7 @@ component {
 	this.author 			= "Jeremy R DeYoung";
 	this.webURL 			= "http://www.nextstep.guru";
 	this.description 		= "This is the default configuration for nsg's layout.";
-	this.version			= "1.0.3";
+	this.version			= "1.0.5";
 	// If true, looks for views in the parent first, if not found, then in the module. Else vice-versa
 	this.viewParentLookup 	= true;
 	// If true, looks for layouts in the parent first, if not found, then in module. Else vice-versa
@@ -55,8 +55,10 @@ component {
 
 		// Custom Declared Interceptors
 		interceptors = [
-			{name="layout@layout",class="modules.nsg-module-layout.interceptors.layout"},
-			{name="minifyHTML@layout",class="modules.nsg-module-layout.interceptors.minifyHTML"}
+			{name="layout@layout",class="#moduleMapping#.interceptors.layout"},
+			{name="menu@layout",class="#moduleMapping#.interceptors.menu"},
+			{name="compress@layout",class="#moduleMapping#.interceptors.compress"},
+			{name="minifyHTML@layout",class="#moduleMapping#.interceptors.minifyHTML"}
 		];
 
 		// Binder Mappings

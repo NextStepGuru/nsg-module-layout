@@ -115,6 +115,8 @@ component name="nsgHelper" {
 		// output the original scripts
 		for(var i=1;i<=arrayLen(prc.page.scripts);i++){
 			structDelete(prc.page.scripts[i],'tag')
+			structDelete(prc.page.scripts[i],'moduleroot')
+			structDelete(prc.page.scripts[i],'name')
 			if(!structKeyExists(prc.page.scripts[i],'ifComment')){
 				buffer.append(html.script(argumentCollection=prc.page.scripts[i]));
 			}else{
@@ -200,6 +202,8 @@ component name="nsgHelper" {
 
 		for(var i=1;i<=arrayLen(prc.page.body.scripts);i++){
 			structDelete(prc.page.body.scripts[i],'tag')
+			structDelete(prc.page.body.scripts[i],'name')
+			structDelete(prc.page.body.scripts[i],'moduleRoot')
 			buffer.append(html.script(argumentCollection=prc.page.body.scripts[i]));
 		}
 

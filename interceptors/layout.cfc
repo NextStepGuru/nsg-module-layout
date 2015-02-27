@@ -1,56 +1,6 @@
 component {
 
-	property name="html" inject="id:HTMLHelper@coldbox";
-
-	public void function preLayoutRender(event,interceptData,buffer){
-		var prc = event.getCollection(private=true);
-		var nsgMenu = getSetting( name='nsgMenu', fwSetting=false, defaultValue=arrayNew() );
-		prc['nsgMenu'] = structNew();
-
-		var subItems = arrayNew();
-		for(var i=1;i<=arrayLen(nsgMenu);i++){
-			var thisMenu = nsgMenu[i]['menu'];
-			if(!structKeyExists(prc['nsgMenu'],thisMenu)){
-				prc['nsgMenu'][thisMenu] = structNew();
-			}
-
-			var thisItem = nsgMenu[i];
-			if(!structKeyExists(thisItem,'subid') || thisItem['subid'] == ''){
-				if( !structKeyExists(thisItem,'isUserLoggedIn') || thisItem['isUserLoggedIn'] == isUserLoggedIn() ){
-					prc['nsgMenu'][thisMenu][thisItem['id']] = {
-						"subid" 	= ( structKeyExists(thisItem,'subid') ? thisItem['subid'] : ''),
-						"id" 		= ( structKeyExists(thisItem,'id') ? thisItem['id'] : ''),
-						"icon" 		= ( structKeyExists(thisItem,'icon') ? thisItem['icon'] : ''),
-						"link" 		= ( structKeyExists(thisItem,'link') ? thisItem['link'] : ''),
-						"title" 	= ( structKeyExists(thisItem,'title') ? thisItem['title'] : ''),
-						"type" 		= ( structKeyExists(thisItem,'type') ? thisItem['type'] : 'link'),
-						"class"		= ( structKeyExists(thisItem,'class') ? thisItem['class'] : 'compact-item'),
-						"submenu"	= structNew()
-					};
-				}
-			}else{
-				subItems.append(thisItem);
-			}
-		}
-
-		for(var i=1;i<=arrayLen(subItems);i++){
-			var thisMenu = subItems[i]['menu'];
-			var thisItem = subItems[i];
-			var thisSubMenu = thisItem['subid'];
-
-			if( !structKeyExists(thisItem,'isUserLoggedIn') || thisItem['isUserLoggedIn'] == isUserLoggedIn() ){
-				prc['nsgMenu'][thisMenu][thisSubMenu]['submenu'][thisItem['id']] = {
-					"id" 		= ( structKeyExists(thisItem,'id') ? thisItem['id'] : ''),
-					"icon" 		= ( structKeyExists(thisItem,'icon') ? thisItem['icon'] : ''),
-					"link" 		= ( structKeyExists(thisItem,'link') ? thisItem['link'] : ''),
-					"title" 	= ( structKeyExists(thisItem,'title') ? thisItem['title'] : ''),
-					"class"		= ( structKeyExists(thisItem,'class') ? thisItem['class'] : ''),
-					"type" 		= ( structKeyExists(thisItem,'type') ? thisItem['type'] : 'link')
-				};
-			}
-		}
-
-	}
+	property name="html" inject="HTMLHelper@coldbox";
 
 	public void function preProcess(event,interceptData,buffer) {
 		var prc = event.getCollection(private=true);
@@ -85,9 +35,13 @@ component {
 			}
 
 		if( len(event.getCurrentModule()) ){
-			arrayAppend(prc.page.styles,{'tag':'link','href':event.getModuleRoot(event.getCurrentModule()) & "/assets/css/#event.getCurrentModule()#-module.css"});
+			var thisSettings = getModuleSettings(event.getCurrentModule());
+			jsDependency = ( structKeyExists(thisSettings,'jsDependency') ? thisSettings['jsDependency'] : '' );
+			cssDependency = ( structKeyExists(thisSettings,'cssDependency') ? thisSettings['cssDependency'] : '' );
 
-			arrayAppend(prc.page.body.scripts,{'tag':'script','src':event.getModuleRoot(event.getCurrentModule()) & "/assets/js/#event.getCurrentModule()#-module.js",'async':true});
+			arrayAppend(prc.page.styles,{'tag':'link','href':event.getModuleRoot(event.getCurrentModule()) & "/assets/css/#event.getCurrentModule()#-module.css",'dependency':cssDependency});
+
+			arrayAppend(prc.page.body.scripts,{'tag':'script','src':event.getModuleRoot(event.getCurrentModule()) & "/assets/js/#event.getCurrentModule()#-module.js",'async':true,'dependency':jsDependency});
 		}
 
 		}else if( event.isAjax() ){
@@ -205,6 +159,12 @@ component {
 	public void function addPageBodyScript(required event,required interceptData){
 		var prc = event.getCollection(private=true);
 		if( !event.isAjax() ){
+			if(!structKeyExists(prc.page,'body')){
+				prc.page['body'] = structNew();
+			}
+			if(!structKeyExists(prc.page.body,'scripts')){
+				prc.page.body['scripts'] = arrayNew();
+			}
 
 			arrayAppend(prc.page.body.scripts,interceptData);
 		}

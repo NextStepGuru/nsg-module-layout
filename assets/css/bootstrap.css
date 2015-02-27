@@ -267,8 +267,8 @@ th {
 @font-face {
   font-family: 'Glyphicons Halflings';
 
-  src: url('/modules/nsg-module-layout/assets/fonts/glyphicons-halflings-regular.eot');
-  src: url('/modules/nsg-module-layout/assets/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('/modules/nsg-module-layout/assets/fonts/glyphicons-halflings-regular.woff') format('woff'), url('/modules/nsg-module-layout/assets/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('/modules/nsg-module-layout/assets/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
+  src: url('{{moduleRoot}}/assets/fonts/glyphicons-halflings-regular.eot');
+  src: url('{{moduleRoot}}/assets/fonts/glyphicons-halflings-regular.eot?#iefix') format('embedded-opentype'), url('{{moduleRoot}}/assets/fonts/glyphicons-halflings-regular.woff') format('woff'), url('{{moduleRoot}}/assets/fonts/glyphicons-halflings-regular.ttf') format('truetype'), url('{{moduleRoot}}/assets/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregular') format('svg');
 }
 .glyphicon {
   position: relative;
