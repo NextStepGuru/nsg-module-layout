@@ -7,7 +7,7 @@ component {
 
 		if( !event.isAjax() ){
 
-			var defaults = duplicate(getSetting('pageDefaults'));
+			var defaults = duplicate(getSetting(name='pageDefaults', fwSetting=false, defaultValue={}));
 
 			if(!structKeyExists(prc,'page')){
 				prc['page'] = defaults;
