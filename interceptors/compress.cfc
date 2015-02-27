@@ -82,6 +82,9 @@ component {
 			}
 			if( len(stringBuffer.toString()) ){
 				var myFile = hash(stringBuffer.toString()) & '.' & jsOrCSS;
+				if(!directoryExists(expandPath('./assets/cache/'))){
+					directoryCreate(expandPath('./assets/cache/'));
+				}
 				fileWrite(expandPath('./assets/cache/') & myFile, stringBuffer.toString());
 				returnFiles.append({'tag':'script','#srcOrHREF#':'/assets/cache/' & myFile});
 			}
