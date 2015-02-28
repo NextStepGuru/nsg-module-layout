@@ -112,7 +112,7 @@ component {
 
 		if( nsgLayout.keyExists('combineCSSFiles') && nsgLayout['combineCSSFiles'] ){
 			var cacheFileName = hash(prc.page.styles.toString());
-			if( event.valueExists('ormreload') || !fileExists(expandPath('./assets/cache/') & cacheFileName & '.css') ){
+			if( event.valueExists('ormreload') || !structKeyExists(application,cacheFileName) ){
 
 				application[cacheFileName] = sortAndGroupFiles(prc.page.styles);
 				prc.page.styles = application[cacheFileName];
